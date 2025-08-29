@@ -1,6 +1,6 @@
 # K-NCT (Korean Neural grammatical Correction Test set)
 
-한국어 비원어민 말뭉치 데이터를 처리하는 Python 라이브러리입니다.
+한국어 문법 말뭉치 데이터([K-NCT](https://seonminkoo.github.io))를 읽고 검증
 
 ## 주요 기능
 
@@ -65,4 +65,8 @@ pydantic을 사용하여 다음과 같은 검증을 수행합니다:
 
 ```bash
 pip install pydantic
+```
+
+```bash
+conda install pydantic
 ```
