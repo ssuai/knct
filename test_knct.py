@@ -9,7 +9,7 @@ import tempfile
 import json
 import os
 from knct import (
-    KNCTEntry, KNCTSchema, KNCTDataset, ErrorInfo,
+    KNCTEntry, KNCTSchema, KNCTDataset, GrammarError,
     load_dataset, parse_errors
 )
 
@@ -71,9 +71,9 @@ class TestKNCTModels(unittest.TestCase):
         with self.assertRaises(Exception):
             KNCTEntry(**entry_data)
     
-    def test_error_info_valid(self):
-        """유효한 ErrorInfo 생성 테스트"""
-        error_info = ErrorInfo(
+    def test_grammar_error_valid(self):
+        """유효한 GrammarError 생성 테스트"""
+        error_info = GrammarError(
             text="테스트",
             start=0,
             end=3,
@@ -321,7 +321,7 @@ class TestIntegration(unittest.TestCase):
         
         # 4. 오류 정보 검증
         for error in errors:
-            self.assertIsInstance(error, ErrorInfo)
+            self.assertIsInstance(error, GrammarError)
             self.assertTrue(hasattr(error, 'text'))
             self.assertTrue(hasattr(error, 'start'))
             self.assertTrue(hasattr(error, 'end'))

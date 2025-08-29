@@ -30,8 +30,8 @@ class KNCTDataset(BaseModel):
     dataset_schema: KNCTSchema = Field(..., alias="schema")
     data: List[KNCTEntry]
 
-class ErrorInfo(BaseModel):
-    """오류 정보를 나타내는 모델"""
+class GrammarError(BaseModel):
+    """문법 오류 정보를 나타내는 모델"""
     text: str = Field(..., description="오류 텍스트")
     start: int = Field(..., description="clean_text 상에서의 시작 인덱스")
     end: int = Field(..., description="clean_text 상에서의 종료 인덱스 (exclusive)")
@@ -64,11 +64,11 @@ def load_dataset(filepath='K-NCT_v1.5.json') -> List[KNCTEntry]:
         print(f"Error validating the data: {e}")
         raise
 
-def parse_errors(entry: KNCTEntry) -> tuple[str, List[ErrorInfo]]:
+def parse_errors(entry: KNCTEntry) -> tuple[str, List[GrammarError]]:
     """
     <eN>…</eN> 형태의 오류 태그가 포함된 문장을 파싱하여
     - clean_text: 태그가 제거된 순수 문장
-    - errors: ErrorInfo 객체들의 리스트
+    - errors: GrammarError 객체들의 리스트
     를 반환한다.
     """
     sentence = entry.error_sentence
@@ -77,7 +77,7 @@ def parse_errors(entry: KNCTEntry) -> tuple[str, List[ErrorInfo]]:
     # 오류 태그 전용 정규표현식: <eN>…</eN>
     tag_pattern = re.compile(r'<(e\d+)>(.*?)</\1>')
     
-    errors: List[ErrorInfo] = []
+    errors: List[GrammarError] = []
     clean_parts: List[str] = []
     last_index = 0
     clean_index = 0  # clean_text 상의 누적 길이
@@ -97,7 +97,7 @@ def parse_errors(entry: KNCTEntry) -> tuple[str, List[ErrorInfo]]:
         clean_parts.append(error_text)
 
         # 오류 정보 기록 (clean_text 상의 인덱스 기준)
-        error_info = ErrorInfo(
+        error_info = GrammarError(
             text=error_text,
             start=clean_index,
             end=clean_index + len(error_text),            

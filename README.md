@@ -27,8 +27,8 @@
 - `number_of_error`: 오류 개수
 - `error_type`: 오류 타입
 
-### ErrorInfo
-오류 정보를 구조화하는 모델:
+### GrammarError
+문법 오류 정보를 구조화하는 모델:
 - `text`: 오류 텍스트
 - `start`: 시작 인덱스
 - `end`: 종료 인덱스
