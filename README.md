@@ -1,4 +1,4 @@
-# K-NCT (Korean Non-native Corpus with Tags)
+# K-NCT (Korean Neural grammatical Correction Test set)
 
 한국어 비원어민 말뭉치 데이터를 처리하는 Python 라이브러리입니다.
 
