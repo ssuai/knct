@@ -48,7 +48,11 @@ def load_dataset(filepath='K-NCT_v1.5.json') -> List[KNCTEntry]:
         # JSON 파일 로드
         with open(filepath, 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
-        
+    except Exception as e:
+        print(f"Error loading {filepath}: {e}")
+        raise
+
+    try:        
         # Pydantic 모델로 validation 수행
         validated_data = KNCTDataset(**raw_data)
         
@@ -57,7 +61,7 @@ def load_dataset(filepath='K-NCT_v1.5.json') -> List[KNCTEntry]:
         return validated_data.data
         
     except Exception as e:
-        print(f"Error loading or validating data: {e}")
+        print(f"Error validating the data: {e}")
         raise
 
 def parse_errors(entry: KNCTEntry) -> tuple[str, List[ErrorInfo]]:
